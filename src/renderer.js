@@ -6,7 +6,6 @@ import './index.css';
 window.addEventListener('DOMContentLoaded', main);
 let links           = [];
 let movies          = [];
-const apiKey        = '';
 let rollTimeSeconds = 3;
 let isRolling       = false;
 let swipeInterval   = null;
@@ -14,6 +13,8 @@ let randomMovie     = null;
 
 
 const fetchFilm = async (id) => {
+  const apiKey = localStorage.getItem('apiKey');
+  if (!apiKey) return;
   const res = await fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}`, {
     method : 'GET',
     headers: {
@@ -67,6 +68,7 @@ function main() {
   const resetButton   = document.querySelector('#reset-button');
   const inputsWrapper = document.querySelector('.inputs-wrapper');
   const rollButton    = document.querySelector('.roll-button');
+  const apiKeyInput   = document.querySelector('#api-key-input');
 
   settingsIcon.addEventListener('click', () => {
     if (isRolling) {
@@ -82,6 +84,8 @@ function main() {
   });
 
   saveButton.addEventListener('click', async () => {
+    const key = apiKeyInput.value;
+    localStorage.setItem('apiKey', key);
     const inputs = inputsWrapper.querySelectorAll('input[type="text"]');
     links        = [...inputs].map((input) => input.value);
     settingsModal.classList.toggle('display-none');
