@@ -29,7 +29,7 @@ const fetchFilm = async (id) => {
 };
 
 const extractId = (link) => {
-  const regex = /https:\/\/www.kinopoisk.ru\/film\/(\d+)*\/?/;
+  const regex = /https:\/\/www.kinopoisk.ru\/[a-z]*\/(\d+)*\/?/;
 
   return link.trim().match(regex)?.[1];
 };
@@ -86,7 +86,7 @@ function main() {
   saveButton.addEventListener('click', async () => {
     const key = apiKeyInput.value;
     localStorage.setItem('apiKey', key);
-    const inputs = inputsWrapper.querySelectorAll('input[type="text"]');
+    const inputs = inputsWrapper.querySelectorAll('input');
     links        = [...inputs].map((input) => input.value);
     settingsModal.classList.toggle('display-none');
     const linksFetches = links.filter(l => !!l?.trim()).map(link => fetchFilm(extractId(link)));
